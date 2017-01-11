@@ -1,72 +1,87 @@
-  //Init material and dropdown
+  //Init material and dropdown.
   $.material.init();
-  $("#dropdown-menu select").dropdown();
+  $("#material-dropdown-country select").dropdown();
+  $("#material-dropdown-gdg select").dropdown();
 
-  function resize(){
-    $("#myCanvasDownload").outerHeight($(window).height()-$("#myCanvasDownload").offset().top- Math.abs($("#myCanvasDownload").outerHeight(true) - $("#myCanvasDownload").outerHeight()));
+  //Resize my final canvas.
+  function resizeCanvas(canvasItem){
+    if(canvasItem)
+      canvasItem.outerHeight( $(window).height() -
+                              canvasItem.offset().top -
+                              Math.abs(
+                                canvasItem.outerHeight(true) -
+                                canvasItem.outerHeight()
+                              )
+                            );
   }
 
+  //Call resize canvas on resize windows event.
   $(document).ready(function(){
-    resize();
+    resizeCanvas($("#myCanvasDownload"));
     $(window).on("resize", function(){
-        resize();
+        resizeCanvas($("#myCanvasDownload"));
     });
   });
 
-  var options = '';
-  for (var i = 0; i < country.length; i++) {
-   options += '<option value="' + country[i].id+ '">' + country[i].name + '</option>';
+  //Create option list for country.
+  var optionsCountry = '';
+  for (var i = 0; i < country.length; i++)
+   optionsCountry += '<option value="' + country[i].id+ '">' + country[i].name + '</option>';
+
+  downloadGDGList(country[0].id); //Check GDG List for the first country.
+  $("#countryOption").html(optionsCountry); //Set option country list.
+
+  //Check GDG list on every change of countryOption
+  $("#countryOption").on('change',function(){ downloadGDGList($(this).val()); });
+
+  //Get from GDGx the list of GDG per country.
+  function downloadGDGList(country){
+    $.ajax( { url: "https://gdgx.io/api/v1/chapters/country/" + country + "?perpage=999&fields=_id,name&asc=-1",
+              type: "GET",
+              dataType: "jsonp",
+              async: true,
+              success: function(result){
+                var gdgList = result.items;
+                var options = '';
+                for (var i = 0; i < gdgList.length; i++)
+                 options += '<option value="' + gdgList[i]._id+ '">' + gdgList[i].name + '</option>';
+                $("#gdgOption").html(options);
+              },
+              error: function(error){
+                  console.log(error);
+              }
+            }
+          );
   }
-  checkGDG(country[0].id);
-  $("#countryOption").html(options);
 
-  $("#countryOption").on('change',function(){
-    var getCountry = $(this).val();
-    checkGDG(getCountry);
-  });
+  document.getElementById("uploadimage").addEventListener("change", draw, false);
 
-  function checkGDG(country){
-    var url = "https://gdgx.io/api/v1/chapters/country/" + country + "?perpage=999&fields=_id,name&asc=-1";
-
-    $.ajax({url: url, type: "GET", dataType: "jsonp", async: true, success: function(result){
-        var gdgList = result.items;
-        var options = '';
-        for (var i = 0; i < gdgList.length; i++) {
-         options += '<option value="' + gdgList[i]._id+ '">' + gdgList[i].name + '</option>';
-        }
-        $("#gdgOption").html(options);
-    },
-    error: function(error){
-        //console.log(error);
-    }});
-  }
+  document.getElementById('download').addEventListener('click', function() {
+    downloadCanvas(this, 'myCanvasDownload', 'image.png');
+  }, false);
 
   function downloadCanvas(link, canvasId, filename) {
     link.href = document.getElementById(canvasId).toDataURL();
     link.download = filename;
   }
 
-  document.getElementById('download').addEventListener('click', function() {
-    downloadCanvas(this, 'myCanvasDownload', 'image.png');
-  }, false);
-
-  document.getElementById("uploadimage").addEventListener("change", draw, false);
-
   var logo = new Image();
   logo.crossOrigin='anonymous';
 
   var logoWtm = new Image();
-  logoWtm.crossOrigin='anonymous';
+  logoWtm.crossOrigin = 'anonymous';
   logoWtm.src = "img/wtm.png";
-  logoWtm.onload = function() { console.log("Caricato");}
+  logoWtm.onload = function() { console.log("Caricato"); };
+
+  var canvas = document.createElement('canvas');
 
   function draw(ev) {
-    console.log(ev);
-    var ctx = document.getElementById('canvas').getContext('2d'),
-        img = new Image(),
-        f = document.getElementById("uploadimage").files[0],
-        url = window.URL || window.webkitURL,
-        src = url.createObjectURL(f);
+    //console.log(ev);
+    var ctx = canvas.getContext('2d');
+    img = new Image();
+    f = document.getElementById("uploadimage").files[0];
+    url = window.URL || window.webkitURL;
+    src = url.createObjectURL(f);
 
     img.src = src;
 
@@ -120,7 +135,7 @@
   }
 
   function start(){
-    applyText(canvas,$("#gdgOption option:selected").text());
+    applyText(canvas, $("#gdgOption option:selected").text() );
   }
 
   function applyText(canvas,text){

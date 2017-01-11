@@ -9,17 +9,18 @@
   <title>GDG Avatar</title>
 
   <!-- Javascript Libs -->
-  <script src="js/jquery.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/ripples.min.js"></script>
-  <script src="js/material.min.js"></script>
-  <script src="js/jquery.dropdown.js"></script>
+  <script src="lib/js/jquery.min.js"></script>
+  <script src="lib/js/bootstrap.min.js"></script>
+  <script src="lib/js/ripples.min.js"></script>
+  <script src="lib/js/material.min.js"></script>
+  <script src="lib/js/jquery.dropdown.js"></script>
 
   <!-- Style -->
-  <link rel="stylesheet" href="css/bootstrap.min.css"/>
-  <link rel="stylesheet" href="css/bootstrap-material-design.min.css"/>
-  <link rel="stylesheet" href="css/ripples.min.css"/>
-  <link rel="stylesheet" href="css/jquery.dropdown.css"/>
+  <link rel="stylesheet" href="lib/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="lib/css/bootstrap-material-design.min.css"/>
+  <link rel="stylesheet" href="lib/css/ripples.min.css"/>
+  <link rel="stylesheet" href="lib/css/jquery.dropdown.css"/>
+
   <link rel="stylesheet" href="css/style.css"/>
 
   <!-- Font -->
@@ -35,7 +36,6 @@
     <h3>Your image</h3>
 
     <div id="myImage"></div>
-    <canvas id="canvas" width=300 height=300 hidden="true"></canvas>
 
   </div>
 
@@ -43,20 +43,20 @@
 
     <form class="form-horizontal">
 
-      <div class="form-group" id="dropdown-menu">
+      <div class="form-group" id="material-dropdown-country">
         <label for="countryOption">Your Country</label>
         <select id="countryOption" class="form-control">
         </select>
       </div>
 
-      <div class="form-group" id="dropdown-menu">
+      <div class="form-group" id="material-dropdown-gdg">
         <label for="gdgOption">Your GDG</label>
         <select id="gdgOption" class="form-control">
         </select>
       </div>
 
       <div class="form-group">
-        <input type="file" id='uploadimage' accept="image/*;capture=camera">
+        <input type="file" id="uploadimage" accept="image/*;capture=camera">
 
         <div class="input-group">
           <input type="text" readonly="" class="form-control" placeholder="Please select a file...">
@@ -70,20 +70,19 @@
 
       <div class="togglebutton">
         <label> BlackWhite
-          <input type="checkbox" checked="" id="colorSet"></span>
+          <input type="checkbox" checked="" id="colorSet">
         </label>
       </div>
 
-
       <div class="togglebutton">
         <label> WTM
-          <input type="checkbox" checked="" id="wtm"></span>
+          <input type="checkbox" checked="" id="wtm">
         </label>
       </div>
 
       <div class="togglebutton">
         <label> SquareCrop
-          <input type="checkbox" checked="" id="squareCrop"></span>
+          <input type="checkbox" checked="" id="squareCrop">
         </label>
       </div>
 
