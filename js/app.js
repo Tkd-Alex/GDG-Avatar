@@ -5,8 +5,7 @@
 
   //Resize my final canvas.
   function resizeCanvas(canvasItem){
-    if(canvasItem)
-      canvasItem.outerHeight( $(window).height() -
+    canvasItem.outerHeight( $(window).height() -
                               canvasItem.offset().top -
                               Math.abs(
                                 canvasItem.outerHeight(true) -
