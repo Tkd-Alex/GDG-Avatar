@@ -1,7 +1,5 @@
   //Init material and dropdown.
   $.material.init();
-  $("#material-dropdown-country select").dropdown();
-  $("#material-dropdown-gdg select").dropdown();
 
   //Resize my final canvas.
   function resizeCanvas(canvasItem){
@@ -23,15 +21,16 @@
   });
 
   //Create option list for country.
-  var optionsCountry = '';
-  for (var i = 0; i < country.length; i++)
-   optionsCountry += '<option value="' + country[i].id+ '">' + country[i].name + '</option>';
+  var $selectContry = $('#countryOption').selectize({
+					valueField: 'id',
+					labelField: 'name',
+					searchField: 'name',
+					options: country,
+					create: false,
 
-  downloadGDGList(country[0].id); //Check GDG List for the first country.
-  $("#countryOption").html(optionsCountry); //Set option country list.
-
-  //Check GDG list on every change of countryOption
-  $("#countryOption").on('change',function(){ downloadGDGList($(this).val()); });
+          //Check GDG list on every change of countryOption
+          onChange: function(value) { downloadGDGList(value); }
+				});
 
   //Get from GDGx the list of GDG per country.
   function downloadGDGList(country){
@@ -41,10 +40,13 @@
               async: true,
               success: function(result){
                 var gdgList = result.items;
-                var options = '';
-                for (var i = 0; i < gdgList.length; i++)
-                 options += '<option value="' + gdgList[i]._id+ '">' + gdgList[i].name + '</option>';
-                $("#gdgOption").html(options);
+                var $selectGDG = $('#gdgOption').selectize({
+                  valueField: 'name',
+                  labelField: 'name',
+                  searchField: 'name',
+                  options: gdgList,
+                  create: false,
+                });
               },
               error: function(error){
                   console.log(error);
@@ -130,7 +132,7 @@
         logo.src = "img/logo.png";
         logo.onload = start;
         url.revokeObjectURL(src);
-    }
+    };
   }
 
   function start(){
