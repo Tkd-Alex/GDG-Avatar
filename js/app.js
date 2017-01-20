@@ -93,7 +93,16 @@
           canvas.width=500;
           canvas.height=500;
 
-          ctx.drawImage(img, 0, 0, 500, 500);
+          var sourceX = 500;
+          var sourceY = 0;
+          var sourceWidth = 500;
+          var sourceHeight = 500;
+          var destWidth = sourceWidth;
+          var destHeight = sourceHeight;
+          var destX = canvas.width / 2 - destWidth / 2;
+          var destY = canvas.height / 2 - destHeight / 2;
+
+          ctx.drawImage(img, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
 
         }
         else if(img.width > 500){
