@@ -34,7 +34,7 @@
 
   //Get from GDGx the list of GDG per country.
   function downloadGDGList(country){
-    $.ajax( { url: "https://gdgx.io/api/v1/chapters/country/" + country + "?perpage=999&fields=_id,name&asc=-1",
+    $.ajax( { url: "https://hub.gdgx.io/api/v1/chapters/country/" + country + "?perpage=999&fields=_id,name&asc=-1",
               type: "GET",
               dataType: "jsonp",
               async: true,
